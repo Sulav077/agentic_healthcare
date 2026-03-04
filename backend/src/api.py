@@ -28,11 +28,13 @@ class SymptomRequest(BaseModel):
     city: str
 
 
+# In api.py
 class BookingRequest(BaseModel):
     patient_name: str
+    patient_age: int      
+    patient_phone: str
+    patient_address: str
     doctor: dict
-
-
 # --------------------
 # Routes
 # --------------------
@@ -56,10 +58,14 @@ def triage_route(request: SymptomRequest):
 
 @app.post("/book")
 def book_route(request: BookingRequest):
-
+    # Pass the whole request object or a dictionary of patient info
     confirmation = booking_agent.book(
-        request.patient_name,
-        request.doctor
+        patient_info={
+            "name": request.patient_name,
+            "age": request.patient_age,
+            "phone": request.patient_phone,
+            "address": request.patient_address
+        },
+        doctor=request.doctor
     )
-
     return confirmation

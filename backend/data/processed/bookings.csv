@@ -1,1 +1,2 @@
-patient_name,doctor_name,hospital,city,appointment_date,appointment_time,statusTest Patient,Dr. Suresh Sharma,Apollo Hospital - Delhi NCR,delhi ncr,2026-03-04,Tomorrow 10:00 AM,confirmed
+Patient_UID,Patient_Name,Age,Phone,Address,Doctor_UUID,Doctor_Name,Hospital,City,Booking_Date,Appointment_Time,Status
+PAT-6F430B6B,Sulav Dwivedi,20,08260054344,"KIIT Law School, Patia",N/A,Dr. Suresh Sharma,Apollo Hospital - Delhi NCR,delhi ncr,2026-03-05,Tomorrow 10:00 AM,confirmed
