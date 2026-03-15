@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from typing import List, Optional
 from src.agents.triage_agent import TriageAgent
 from src.tools.search_engine import DoctorSearchEngine
 from src.agents.booking_agent import BookingAgent
@@ -26,6 +27,7 @@ app.add_middleware(
 class SymptomRequest(BaseModel):
     symptoms: str
     city: str
+    follow_up_answers: Optional[List[dict]] = None
 
 
 # In api.py
@@ -42,7 +44,18 @@ class BookingRequest(BaseModel):
 @app.post("/triage")
 def triage_route(request: SymptomRequest):
 
-    triage_result = triage.analyze(request.symptoms, request.city)
+    triage_result = triage.analyze(
+        request.symptoms,
+        request.city,
+        request.follow_up_answers
+    )
+
+    if triage_result.get("needs_follow_up"):
+        return {
+            "status": "follow_up",
+            "triage": triage_result,
+            "doctors": []
+        }
 
     doctors = search_engine.search(
         triage_result["specialty"],
@@ -51,6 +64,7 @@ def triage_route(request: SymptomRequest):
     )
 
     return {
+        "status": "final",
         "triage": triage_result,
         "doctors": doctors
     }
