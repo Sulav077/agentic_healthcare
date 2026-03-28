@@ -20,10 +20,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# --------------------
-# Request Models
-# --------------------
 
+# Request Models
 class SymptomRequest(BaseModel):
     symptoms: str
     city: str
